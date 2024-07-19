@@ -65,7 +65,7 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
 }
 
 const getBaseUrl = () => {
-  return "test-standalone-trpc.vercel.app";
+  return "https://test-standalone-trpc.vercel.app";
   // if (typeof window !== "undefined") return window.location.origin;
   // if (env.VERCEL_URL) return `https://${env.VERCEL_URL}`;
   // // eslint-disable-next-line no-restricted-properties
