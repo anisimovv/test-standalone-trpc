@@ -23,12 +23,22 @@ export const OPTIONS = () => {
   return response;
 };
 
-function handler(req: Request) {
-  return fetchRequestHandler({
+async function handler(req: Request) {
+  const response = await fetchRequestHandler({
     endpoint: "/api/trpc",
-    req,
     router: appRouter,
-    createContext: ({ req }) => createTRPCContext({ headers: req.headers }),
+    req,
+    createContext: () =>
+      createTRPCContext({
+        headers: req.headers,
+      }),
+    onError({ error, path }) {
+      console.error(`>>> tRPC Error on '${path}'`, error);
+    },
   });
+
+  setCorsHeaders(response);
+  return response;
 }
+
 export { handler as GET, handler as POST };

@@ -37,6 +37,12 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
             (op.direction === "down" && op.result instanceof Error),
         }),
         unstable_httpBatchStreamLink({
+          fetch(url, options) {
+            return fetch(url, {
+              ...options,
+              credentials: "include",
+            });
+          },
           transformer: SuperJSON,
           url: getBaseUrl() + "/api/trpc",
           headers() {
@@ -59,8 +65,9 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
 }
 
 const getBaseUrl = () => {
-  if (typeof window !== "undefined") return window.location.origin;
-  if (env.VERCEL_URL) return `https://${env.VERCEL_URL}`;
-  // eslint-disable-next-line no-restricted-properties
-  return `http://localhost:${process.env.PORT ?? 3000}`;
+  return "http://localhost:3001";
+  // if (typeof window !== "undefined") return window.location.origin;
+  // if (env.VERCEL_URL) return `https://${env.VERCEL_URL}`;
+  // // eslint-disable-next-line no-restricted-properties
+  // return `http://localhost:${process.env.PORT ?? 3000}`;
 };
